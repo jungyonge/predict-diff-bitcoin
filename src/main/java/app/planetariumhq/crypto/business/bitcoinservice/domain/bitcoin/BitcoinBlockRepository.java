@@ -1,0 +1,12 @@
+package app.planetariumhq.crypto.business.bitcoinservice.domain.bitcoin;
+
+import java.util.List;
+
+public interface BitcoinBlockRepository {
+
+    BitcoinBlock save(BitcoinBlock bitcoinBlock);
+
+    Iterable<BitcoinBlock> saveAll(List<BitcoinBlock> bitcoinBlocks);
+
+
+}

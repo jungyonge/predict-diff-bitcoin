@@ -1,9 +1,7 @@
-package app.planetariumhq.bitcoin.business.bitcoinservice.infrastructure.domain.bitquery;
+package app.planetariumhq.crypto.business.bitcoinservice.infrastructure.domain.bitquery;
 
-import app.planetariumhq.bitcoin.business.bitcoinservice.domain.bitcoin.BitcoinBlock;
+import app.planetariumhq.crypto.business.bitcoinservice.domain.bitcoin.BitcoinBlockData;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.awt.Stroke;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class BitqueryService {
 
     private final static String BLOCK_LIST_QUERY = "{\n"
                                                 + "  bitcoin(network: bitcoin) {\n"
-                                                + "    blocks(height: {gteq: %d, lteq: %d}) {\n"
+                                                + "    blocks(height: {gt: %d}) {\n"
                                                 + "      blockHash(blockHash: {})\n"
                                                 + "      height\n"
                                                 + "      difficulty\n"
@@ -67,27 +65,27 @@ public class BitqueryService {
         API_URL = api_url;
     }
 
-    public BitcoinBlock getBitcoinBlock(int height) {
-        List<BitcoinBlock> result;
+    public BitcoinBlockData getBitcoinBlock(int height) {
+        List<BitcoinBlockData> result;
 
         String query = String.format(BLOCK_QUERY, height);
         String parseString = getResponse(query);
         try {
-            result = objectMapper.readValue(parseString, new TypeReference<List<BitcoinBlock>>() { });
+            result = objectMapper.readValue(parseString, new TypeReference<List<BitcoinBlockData>>() { });
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
         return result.get(0);
     }
 
-    public List<BitcoinBlock> getBitcoinBlockList(int startHeight, int lastHeight) {
+    public List<BitcoinBlockData> getBitcoinBlockList(int startHeight) {
 
-        List<BitcoinBlock> result;
+        List<BitcoinBlockData> result;
 
-        String query = String.format(BLOCK_LIST_QUERY, startHeight, lastHeight);
+        String query = String.format(BLOCK_LIST_QUERY, startHeight);
         String parseString = getResponse(query);
         try {
-            result = objectMapper.readValue(parseString, new TypeReference<List<BitcoinBlock>>() { });
+            result = objectMapper.readValue(parseString, new TypeReference<List<BitcoinBlockData>>() { });
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -100,7 +98,7 @@ public class BitqueryService {
         headers.add("content-type", "application/json");
         Map<String, String> map = new HashMap<>();
         map.put("query", query);
-        List<BitcoinBlock> result;
+        List<BitcoinBlockData> result;
         ResponseEntity<String> response = restTemplate.postForEntity(API_URL, new HttpEntity<>(map, headers), String.class);
         String parseString = response.getBody().substring(response.getBody().indexOf("["), response.getBody().indexOf("]") + 1);
         return parseString;

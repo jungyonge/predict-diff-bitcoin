@@ -1,4 +1,4 @@
-package app.planetariumhq.bitcoin;
+package app.planetariumhq.crypto.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

@@ -1,4 +1,4 @@
-package app.planetariumhq.bitcoin.business.bitcoinservice.domain.bitcoin;
+package app.planetariumhq.crypto.business.bitcoinservice.domain.bitcoin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BitcoinBlock {
+public class BitcoinBlockData {
 
-    private String height;
+    private int height;
     private String blockHash;
-    private String difficulty;
+    private double difficulty;
     private HashMap<String, Object> timestamp;
 
 }

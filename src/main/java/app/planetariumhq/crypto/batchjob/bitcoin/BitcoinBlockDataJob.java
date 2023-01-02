@@ -44,7 +44,7 @@ public class BitcoinBlockDataJob {
     }
 
     @Transactional
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 60 * 1000)
     public void bitcoinBlockDataBatchJob() {
 
         int lastHeight = 0;

@@ -21,4 +21,9 @@ public class BitcoinBlockRepositoryImpl implements BitcoinBlockRepository {
     public Iterable<BitcoinBlock> saveAll(List<BitcoinBlock> bitcoinBlocks) {
         return bitcoinBlockJpaRepository.saveAll(bitcoinBlocks);
     }
+
+    @Override
+    public List<BitcoinBlock> getBitcoinBlockListByHeight(int height) {
+        return bitcoinBlockJpaRepository.findAllByHeightGreaterThanEqual(height);
+    }
 }

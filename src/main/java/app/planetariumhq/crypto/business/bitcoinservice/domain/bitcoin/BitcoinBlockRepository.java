@@ -8,5 +8,8 @@ public interface BitcoinBlockRepository {
 
     Iterable<BitcoinBlock> saveAll(List<BitcoinBlock> bitcoinBlocks);
 
+    List<BitcoinBlock> getBitcoinBlockListByHeight(int height);
+
+
 
 }

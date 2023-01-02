@@ -23,7 +23,6 @@ public class BitcoinBlock {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private long id;
-
     private int height;
     private String blockHash;
     private double difficulty;

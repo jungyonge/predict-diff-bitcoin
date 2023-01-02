@@ -157,7 +157,7 @@ Intellij , Mac 기준입니다.
 
 * **URL Params**
 
-  - height (비트코인 height)
+  - NONE
 
 * **Success Response:**
 

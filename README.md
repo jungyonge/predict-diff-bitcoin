@@ -41,16 +41,18 @@
 
 ## 가정
 1. 구글시트에서 api 실시간으로 요청한다.
-2. 제네시스블록부터 파싱은 오래 걸려 데이터는 약 6048(2016 x 3) 전부터 데이터 파싱한다.
+2. 제네시스블록부터 파싱은 오래 걸려 데이터는 현재블록부터 약 6048(2016 x 3) 전부터 데이터 파싱한다.
 
 ## 개발회고록
 1. 처음에 요구사항이 잘 이해가 안되었다.
-   - https://graphql.bitquery.io 를 이용하여 구글시트를 연동하여 구글시트를 이용하여 데이터를 파싱하라는건지 햇갈렸다.
+   - https://graphql.bitquery.io 를 이용하여 구글시트를 연동한 뒤 구글시트를 이용하여 데이터를 파싱하라는건지 햇갈렸다.
    - 실시간 업데이트를 위해, websocket통신을 구현해야 하나 고민했다.
 2. 요구하는 데이터를 주는 api를 만든 후 구글시트에서 요청 or 배치로 구글시트에 데이터 추가로 가정 하기로 하였다.
 3. bitquery와 graphql를 처음 접해봐서 초반에 해맸다.
 4. 배치를 통해 bitquery로 블록을 파싱하고 다음 난이도 예측값을 계산후 db에 insert, update 로직을 만들었다.
 5. 비트코인 관련 사이트를 서핑해보니, 난이도 예측 관련된 추가 데이터도 있으면 좋겠다는 생각이 들어서 추가 하였다.
+6. 채굴된 시간이 UTC기준이라 KST변경 위해 +9시간을 해야하는건지 고민하였지만 UTC기준을 api 명세서에 추가하기로 하였다.
+   - ZonedDateTime이 있는데 toLocalDateTime하면 다시 UTC로 준다.
 
 ## 후기
 1. graphql를 공부해야겠다. spring graphql이 있는데 안정적이지 못하다는 후기가 있다.
@@ -105,22 +107,25 @@ Intellij , Mac 기준입니다.
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `[
-    {
-    "id": 5940,
-    "height": 770000,
-    "blockHash": "00000000000000000004ea65f5ffe55bfc0adbc001d3a8e154cc9f19da959ba8",
-    "difficulty": 3.536406590045712E13,
-    "mined": "2023-01-02T09:27:45"
-    },
-    {
-    "id": 5941,
-    "height": 770001,
-    "blockHash": "0000000000000000000792f6a9d56bdef9b245e63be1e85d52ee07835c48a9d1",
-    "difficulty": 3.536406590045712E13,
-    "mined": "2023-01-02T09:30:32"
-    }
-   ]`
+    **Content:** 
+  ~~~
+    [  
+        {
+            "height": 770000,
+            "blockHash": "00000000000000000004ea65f5ffe55bfc0adbc001d3a8e154cc9f19da959ba8",
+            "difficulty": 3.536406590045712E13,
+            "mined": "2023-01-02T09:27:45",
+            "transactionCount": 620
+        },
+        {
+            "height": 770001,
+            "blockHash": "0000000000000000000792f6a9d56bdef9b245e63be1e85d52ee07835c48a9d1",
+            "difficulty": 3.536406590045712E13,
+            "mined": "2023-01-02T09:30:32",
+            "transactionCount": 488
+        }
+   ]
+  ~~~
 
 * **Error Response:**
 
@@ -157,15 +162,17 @@ Intellij , Mac 기준입니다.
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `
+    **Content:** 
+  ~~~
     {
-    "predictionHeight": 770112,
-    "predictionDifficulty": "34.26T",
-    "presentDifficulty": "35.36T",
-    "mineAverageTime": 10.32,
-    "difficultyChangePercent": -3.12,
-    "predictionChangeDate": "2023-01-03T02:06:25"
-    }`
+        "predictionHeight": 770112,
+        "predictionDifficulty": "34.26T",
+        "presentDifficulty": "35.36T",
+        "mineAverageTime": 10.32,
+        "difficultyChangePercent": -3.12,
+        "predictionChangeDate": "2023-01-03T02:06:25"
+    }
+  ~~~
 
 * **Error Response:**
 

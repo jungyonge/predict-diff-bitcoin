@@ -3,14 +3,16 @@ package app.planetariumhq.crypto.business.bitcoinservice.infrastructure.domain.b
 import app.planetariumhq.crypto.business.bitcoinservice.domain.bitcoin.BitcoinBlock;
 import app.planetariumhq.crypto.business.bitcoinservice.domain.bitcoin.BitcoinBlockRepository;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@AllArgsConstructor
 public class BitcoinBlockRepositoryImpl implements BitcoinBlockRepository {
 
     private final BitcoinBlockJpaRepository bitcoinBlockJpaRepository;
+
+    public BitcoinBlockRepositoryImpl(BitcoinBlockJpaRepository bitcoinBlockJpaRepository) {
+        this.bitcoinBlockJpaRepository = bitcoinBlockJpaRepository;
+    }
 
     @Override
     public BitcoinBlock save(BitcoinBlock bitcoinBlock) {

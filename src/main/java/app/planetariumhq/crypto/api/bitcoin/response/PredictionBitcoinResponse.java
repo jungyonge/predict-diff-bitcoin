@@ -10,13 +10,13 @@ public class PredictionBitcoinResponse {
 
     private int predictionHeight;
 
-    private String predictionDifficulty;
-
     private String presentDifficulty;
 
-    private double mineAverageTime;
+    private String predictionDifficulty;
 
     private double difficultyChangePercent;
+
+    private double mineAverageTime;
 
     private LocalDateTime predictionChangeDate;
 }

@@ -166,10 +166,10 @@ Intellij , Mac 기준입니다.
   ~~~
     {
         "predictionHeight": 770112,
-        "predictionDifficulty": "34.26T",
         "presentDifficulty": "35.36T",
-        "mineAverageTime": 10.32,
+        "predictionDifficulty": "34.26T",
         "difficultyChangePercent": -3.12,
+        "mineAverageTime": 10.32,
         "predictionChangeDate": "2023-01-03T02:06:25"
     }
   ~~~

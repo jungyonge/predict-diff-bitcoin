@@ -1,6 +1,7 @@
 package app.planetariumhq.crypto.api.bitcoin;
 
 import app.planetariumhq.crypto.api.bitcoin.response.BitcoinBlockDto;
+import app.planetariumhq.crypto.api.bitcoin.response.PredictionBitcoinResponse;
 import app.planetariumhq.crypto.business.bitcoinservice.application.bitcoin.GetBitcoinBlockHandler;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -35,4 +36,10 @@ public class BitcoinController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/predict-difficulty")
+    public ResponseEntity<PredictionBitcoinResponse> getPredictDifficulty(){
+        var results = getBitcoinBlockHandler.getPredictDifficulty();
+
+        return ResponseEntity.ok(results);
+    }
 }

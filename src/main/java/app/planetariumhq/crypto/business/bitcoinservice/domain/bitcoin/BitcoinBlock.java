@@ -8,13 +8,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
         indexes = {
-        @Index(name = "idx_height", columnList = "height")})
+        @Index(name = "idx_height", columnList = "height")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_height",
+                        columnNames = {"height"}
+                )
+        }
+)
 @Getter
 @NoArgsConstructor
 public class BitcoinBlock {

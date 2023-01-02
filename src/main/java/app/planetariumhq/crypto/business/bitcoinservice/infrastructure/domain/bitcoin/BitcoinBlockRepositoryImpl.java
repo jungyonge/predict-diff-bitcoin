@@ -26,4 +26,14 @@ public class BitcoinBlockRepositoryImpl implements BitcoinBlockRepository {
     public List<BitcoinBlock> getBitcoinBlockListByHeight(int height) {
         return bitcoinBlockJpaRepository.findAllByHeightGreaterThanEqual(height);
     }
+
+    @Override
+    public BitcoinBlock getBitcoinBlockByHeight(int height) {
+        return bitcoinBlockJpaRepository.findByHeight(height);
+    }
+
+    @Override
+    public BitcoinBlock getLastBitcoinBlock() {
+        return bitcoinBlockJpaRepository.findTop1ByOrderByMinedDesc();
+    }
 }

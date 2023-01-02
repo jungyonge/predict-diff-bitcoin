@@ -8,5 +8,8 @@ public interface BitcoinBlockJpaRepository extends CrudRepository<BitcoinBlock, 
 
     List<BitcoinBlock> findAllByHeightGreaterThanEqual(int height);
 
+    BitcoinBlock findByHeight(int height);
+
+    BitcoinBlock findTop1ByOrderByMinedDesc();
 
 }

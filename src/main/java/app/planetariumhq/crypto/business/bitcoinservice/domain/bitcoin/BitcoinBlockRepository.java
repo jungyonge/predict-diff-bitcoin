@@ -10,6 +10,11 @@ public interface BitcoinBlockRepository {
 
     List<BitcoinBlock> getBitcoinBlockListByHeight(int height);
 
+    BitcoinBlock getBitcoinBlockByHeight(int height);
+
+    BitcoinBlock getLastBitcoinBlock();
+
+
 
 
 }

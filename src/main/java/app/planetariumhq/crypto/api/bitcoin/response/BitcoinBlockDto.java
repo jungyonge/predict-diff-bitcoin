@@ -12,9 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BitcoinBlockDto {
 
-    private long id;
     private int height;
     private String blockHash;
     private double difficulty;
     private LocalDateTime mined;
+    private int transactionCount;
 }

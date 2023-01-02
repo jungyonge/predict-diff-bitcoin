@@ -35,7 +35,11 @@ public class BitcoinBlockPrediction {
 
     private int predictionHeight;
 
+    private LocalDateTime predictionChangeDate;
+
     private String predictionDifficulty;
+
+    private String presentDifficulty;
 
     private double mineAverageTime;
 
@@ -45,23 +49,33 @@ public class BitcoinBlockPrediction {
 
     private LocalDateTime updated;
 
-    private BitcoinBlockPrediction(int predictionHeight, String predictionDifficulty, double mineAverageTime, double difficultyChangePercent){
+    private BitcoinBlockPrediction(int predictionHeight, String predictionDifficulty,
+            double mineAverageTime, double difficultyChangePercent, LocalDateTime predictionChangeDate,
+            String presentDifficulty) {
         this.setPredictionHeight(predictionHeight);
         this.setPredictionDifficulty(predictionDifficulty);
         this.setMineAverageTime(mineAverageTime);
         this.setDifficultyChangePercent(difficultyChangePercent);
+        this.setPredictionChangeDate(predictionChangeDate);
+        this.setPresentDifficulty(presentDifficulty);
         this.setCreated(LocalDateTime.now());
     }
 
-    public static BitcoinBlockPrediction create(int predictionHeight, String predictionDifficulty, double mineAverageTime, double difficultyChangePercent){
+    public static BitcoinBlockPrediction create(int predictionHeight, String predictionDifficulty,
+            double mineAverageTime, double difficultyChangePercent, LocalDateTime predictionChangeDate,
+            String presentDifficulty) {
 
-        return new BitcoinBlockPrediction(predictionHeight, predictionDifficulty, mineAverageTime, difficultyChangePercent);
+        return new BitcoinBlockPrediction(predictionHeight, predictionDifficulty, mineAverageTime,
+                difficultyChangePercent, predictionChangeDate, presentDifficulty);
     }
 
-    public void updatePrediction(String predictionDifficulty, double mineAverageTime, double difficultyChangePercent){
+    public void updatePrediction(String predictionDifficulty, double mineAverageTime,
+            double difficultyChangePercent, LocalDateTime predictionChangeDate, String presentDifficulty) {
         this.setPredictionDifficulty(predictionDifficulty);
         this.setMineAverageTime(mineAverageTime);
         this.setDifficultyChangePercent(difficultyChangePercent);
+        this.setPredictionChangeDate(predictionChangeDate);
+        this.setPresentDifficulty(presentDifficulty);
         this.setUpdated(LocalDateTime.now());
     }
 
@@ -80,6 +94,14 @@ public class BitcoinBlockPrediction {
 
     private void setDifficultyChangePercent(double difficultyChangePercent) {
         this.difficultyChangePercent = difficultyChangePercent;
+    }
+
+    private void setPredictionChangeDate(LocalDateTime predictionChangeDate) {
+        this.predictionChangeDate = predictionChangeDate;
+    }
+
+    private void setPresentDifficulty(String presentDifficulty) {
+        this.presentDifficulty = presentDifficulty;
     }
 
     private void setCreated(LocalDateTime created) {

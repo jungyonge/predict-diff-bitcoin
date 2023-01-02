@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 
-
 @Slf4j
 @Component
 public class BitqueryService {
@@ -28,33 +27,35 @@ public class BitqueryService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final static String BLOCK_LIST_QUERY = "{\n"
-                                                + "  bitcoin(network: bitcoin) {\n"
-                                                + "    blocks(height: {gt: %d}) {\n"
-                                                + "      blockHash(blockHash: {})\n"
-                                                + "      height\n"
-                                                + "      difficulty\n"
-                                                + "      timestamp {\n"
-                                                + "        time\n"
-                                                + "        unixtime\n"
-                                                + "      }"
-                                                + "    }\n"
-                                                + "  }\n"
-                                                + "}\n";
+    private final static String BLOCK_LIST_QUERY =
+            "{\n"
+            + "  bitcoin(network: bitcoin) {\n"
+            + "    blocks(height: {gt: %d}) {\n"
+            + "      blockHash(blockHash: {})\n"
+            + "      height\n"
+            + "      difficulty\n"
+            + "      timestamp {\n"
+            + "        time\n"
+            + "      }"
+            + "     transactionCount"
+            + "    }\n"
+            + "  }\n"
+            + "}\n";
 
-    private final static String BLOCK_QUERY = "{\n"
-                                            + "  bitcoin(network: bitcoin) {\n"
-                                            + "    blocks(height: {is: %d}) {\n"
-                                            + "      blockHash(blockHash: {})\n"
-                                            + "      height\n"
-                                            + "      difficulty\n"
-                                            + "      timestamp {\n"
-                                            + "        time\n"
-                                            + "        unixtime\n"
-                                            + "      }"
-                                            + "    }\n"
-                                            + "  }\n"
-                                            + "}\n";
+    private final static String BLOCK_QUERY =
+            "{\n"
+            + "  bitcoin(network: bitcoin) {\n"
+            + "    blocks(height: {is: %d}) {\n"
+            + "      blockHash(blockHash: {})\n"
+            + "      height\n"
+            + "      difficulty\n"
+            + "      timestamp {\n"
+            + "        time\n"
+            + "      }"
+            + "     transactionCount"
+            + "    }\n"
+            + "  }\n"
+            + "}\n";
 
 
     public BitqueryService(RestTemplate restTemplate,
@@ -67,40 +68,40 @@ public class BitqueryService {
 
     public BitcoinBlockData getBitcoinBlock(int height) {
         List<BitcoinBlockData> result;
-
-        String query = String.format(BLOCK_QUERY, height);
-        String parseString = getResponse(query);
         try {
-            result = objectMapper.readValue(parseString, new TypeReference<List<BitcoinBlockData>>() { });
+            String query = String.format(BLOCK_QUERY, height);
+            String parseString = getResponse(query);
+            result = objectMapper.readValue(parseString, new TypeReference<>() {});
         } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
         return result.get(0);
     }
 
     public List<BitcoinBlockData> getBitcoinBlockList(int startHeight) {
-
         List<BitcoinBlockData> result;
-
-        String query = String.format(BLOCK_LIST_QUERY, startHeight);
-        String parseString = getResponse(query);
         try {
-            result = objectMapper.readValue(parseString, new TypeReference<List<BitcoinBlockData>>() { });
+            String query = String.format(BLOCK_LIST_QUERY, startHeight);
+            String parseString = getResponse(query);
+            result = objectMapper.readValue(parseString, new TypeReference<>() {});
         } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
         return result;
     }
 
-    private String getResponse(String query){
+    private String getResponse(String query) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-API-KEY", API_KEY);
         headers.add("content-type", "application/json");
         Map<String, String> map = new HashMap<>();
         map.put("query", query);
         List<BitcoinBlockData> result;
-        ResponseEntity<String> response = restTemplate.postForEntity(API_URL, new HttpEntity<>(map, headers), String.class);
-        String parseString = response.getBody().substring(response.getBody().indexOf("["), response.getBody().indexOf("]") + 1);
-        return parseString;
+        ResponseEntity<String> response = restTemplate.postForEntity(API_URL,
+                new HttpEntity<>(map, headers), String.class);
+        return response.getBody()
+                .substring(response.getBody().indexOf("["), response.getBody().indexOf("]") + 1);
     }
 }

@@ -18,17 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class BitcoinController {
 
     private final GetBitcoinBlockHandler getBitcoinBlockHandler;
-
     private final ModelMapper modelMapper;
 
-
-    public BitcoinController(GetBitcoinBlockHandler getBitcoinBlockHandler, ModelMapper modelMapper) {
+    public BitcoinController(GetBitcoinBlockHandler getBitcoinBlockHandler,
+            ModelMapper modelMapper) {
         this.getBitcoinBlockHandler = getBitcoinBlockHandler;
         this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<BitcoinBlockDto>> getBitcoinBlockList(@RequestParam int height){
+    public ResponseEntity<List<BitcoinBlockDto>> getBitcoinBlockList(@RequestParam int height) {
         var results = getBitcoinBlockHandler.getBitcoinBlockList(height);
         Type listType = new TypeToken<List<BitcoinBlockDto>>() {}.getType();
         List<BitcoinBlockDto> list = modelMapper.map(results, listType);
@@ -36,8 +35,8 @@ public class BitcoinController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/predict-difficulty")
-    public ResponseEntity<PredictionBitcoinResponse> getPredictDifficulty(){
+    @GetMapping("/prediction")
+    public ResponseEntity<PredictionBitcoinResponse> getPredictDifficulty() {
         var results = getBitcoinBlockHandler.getPredictDifficulty();
 
         return ResponseEntity.ok(results);

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(
         indexes = {
-        @Index(name = "idx_height", columnList = "height")
+                @Index(name = "idx_height", columnList = "height")
         },
         uniqueConstraints = {
                 @UniqueConstraint(
@@ -35,20 +35,24 @@ public class BitcoinBlock {
     private int height;
     private String blockHash;
     private double difficulty;
+
+    private int transactionCount;
     private LocalDateTime mined;
     private LocalDateTime created;
 
-    private BitcoinBlock(int height, String blockHash, double difficulty, LocalDateTime mined){
+    private BitcoinBlock(int height, String blockHash, double difficulty, LocalDateTime mined, int transactionCount) {
         this.setHeight(height);
         this.setBlockHash(blockHash);
         this.setDifficulty(difficulty);
         this.setMined(mined);
+        this.setTransactionCount(transactionCount);
         this.setCreated(LocalDateTime.now());
     }
 
-    public static BitcoinBlock create(int height, String blockHash, double difficulty, LocalDateTime mined){
+    public static BitcoinBlock create(int height, String blockHash, double difficulty,
+            LocalDateTime mined, int transactionCount) {
 
-        return new BitcoinBlock(height, blockHash, difficulty, mined);
+        return new BitcoinBlock(height, blockHash, difficulty, mined, transactionCount);
     }
 
     private void setHeight(int height) {
@@ -65,6 +69,10 @@ public class BitcoinBlock {
 
     private void setMined(LocalDateTime mined) {
         this.mined = mined;
+    }
+
+    private void setTransactionCount(int transactionCount) {
+        this.transactionCount = transactionCount;
     }
 
     private void setCreated(LocalDateTime created) {

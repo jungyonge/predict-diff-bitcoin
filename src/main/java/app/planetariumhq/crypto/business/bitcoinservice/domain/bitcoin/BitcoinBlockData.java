@@ -18,5 +18,6 @@ public class BitcoinBlockData {
     private String blockHash;
     private double difficulty;
     private HashMap<String, Object> timestamp;
+    private int transactionCount;
 
 }

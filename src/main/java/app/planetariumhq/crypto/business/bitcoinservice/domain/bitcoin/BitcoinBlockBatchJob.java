@@ -21,7 +21,7 @@ public class BitcoinBlockBatchJob {
     private long id;
     private int lastBitcoinHeight;
 
-    public void updateHeight(int lastBitcoinHeight){
+    public void updateHeight(int lastBitcoinHeight) {
         this.setLastBitcoinHeight(lastBitcoinHeight);
     }
 
